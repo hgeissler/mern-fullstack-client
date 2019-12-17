@@ -91,7 +91,6 @@ class App extends Component {
   }
 
   render () {
-    const { data } = this.state
     const messages = this.state.data.length === 0 ? <p> NO DATA </p> :
       this.state.data.map((dat, index) =>
         <li 
@@ -104,88 +103,96 @@ class App extends Component {
       )
 
     return (
-      <div>
-        <ul className="collection">
-          { messages }
-        </ul>
-        <br/>
+      <div className="valign-wrapper">   
         <div className="row">
           <div className="col s12">
-            <div className="input-field inline">
-              <input 
-                type="text" className="validate" ref="newMsg"
-                onChange={(e) => this.setState({ message: e.target.value})}
-              />
-              <label>Message</label>
-            </div>
-            
-            <button 
-              className="btn waves-effect waves-light" 
-              style={{ margin: 15 }}
-              onClick={() => {
-                this.postDataToDB(this.state.message); 
-                this.refs.newMsg.value = ''}
-              }
-            >
-              Add
-            </button>
-          </div>
-        </div>
+            <div className="card">
+              <div className="card-content">
+                <ul className="collection">
+                  { messages }
+                </ul>
+                <br/>
+                <div className="row">
+                  <div className="col s12">
+                    <div className="input-field inline">
+                      <input 
+                        type="text" className="validate" ref="newMsg"
+                        onChange={(e) => this.setState({ message: e.target.value})}
+                      />
+                      <label>Message</label>
+                    </div>
+                    
+                    <button 
+                      className="btn waves-effect waves-light" 
+                      style={{ margin: 15 }}
+                      onClick={() => {
+                        this.postDataToDB(this.state.message); 
+                        this.refs.newMsg.value = ''}
+                      }
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
 
-        <div className="row">
-          <div className="col s12">
-            <div className="input-field inline">
-              <input 
-                type="text" className="validate" ref="deleteId"
-                onChange={(e) => this.setState({ idToDelete: e.target.value})}
-              />
-              <label>ID</label>
-            </div>
-            
-            <button 
-              className="btn waves-effect waves-light" 
-              style={{ margin: 15 }}
-              onClick={() => {
-                this.deleteFromDB(this.state.idToDelete); 
-                this.refs.newMsg.deleteId = ''}
-              }
-            >
-              Delete
-            </button>
-          </div>
-        </div>
+                <div className="row">
+                  <div className="col s12">
+                    <div className="input-field inline">
+                      <input 
+                        type="text" className="validate" ref="deleteId"
+                        onChange={(e) => this.setState({ idToDelete: e.target.value})}
+                      />
+                      <label>ID</label>
+                    </div>
+                    
+                    <button 
+                      className="btn waves-effect waves-light" 
+                      style={{ margin: 15 }}
+                      onClick={() => {
+                        this.deleteFromDB(this.state.idToDelete); 
+                        this.refs.newMsg.deleteId = ''}
+                      }
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
 
-        <div className="row">
-          <div className="col s12">
-            <div className="input-field inline">
-              <input 
-                type="text" className="validate" ref="updateId"
-                onChange={(e) => this.setState({ idToUpdate: e.target.value})}
-              />
-              <label>ID</label>
+                <div className="row">
+                  <div className="col s12">
+                    <div className="input-field inline">
+                      <input 
+                        type="text" className="validate" ref="updateId"
+                        onChange={(e) => this.setState({ idToUpdate: e.target.value})}
+                      />
+                      <label>ID</label>
+                    </div>
+                    <div className="input-field inline">
+                      <input 
+                        type="text" className="validate" ref="updateMsg"
+                        onChange={(e) => this.setState({ updateMessage: e.target.value})}
+                      />
+                      <label>Message</label>
+                    </div>
+                    
+                    <button 
+                      className="btn waves-effect waves-light" 
+                      style={{ margin: 15 }}
+                      onClick={() => {
+                        this.updateDB(this.state.idToUpdate, this.state.updateMessage); 
+                        this.refs.newMsg.updateId = '';
+                        this.refs.newMsg.updateMsg = ''}
+                      }
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="input-field inline">
-              <input 
-                type="text" className="validate" ref="updateMsg"
-                onChange={(e) => this.setState({ updateMessage: e.target.value})}
-              />
-              <label>Message</label>
-            </div>
-            
-            <button 
-              className="btn waves-effect waves-light" 
-              style={{ margin: 15 }}
-              onClick={() => {
-                this.updateDB(this.state.idToUpdate, this.state.updateMessage); 
-                this.refs.newMsg.updateId = '';
-                this.refs.newMsg.updateMsg = ''}
-              }
-            >
-              Update
-            </button>
           </div>
         </div>
-      </div>
+      </div>        
     )
   };
 }
