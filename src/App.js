@@ -60,7 +60,7 @@ class App extends Component {
   }
 
   deleteFromDB = (idToDelete) => {
-    parseInt(idToDelete)
+    idToDelete = parseInt(idToDelete)
     let objIdToDelete = null
     this.state.data.forEach(dat => {
       if (dat.id === idToDelete) {
@@ -77,7 +77,7 @@ class App extends Component {
 
   updateDB = (idToUpdate, updateMessage) => {
     let objIdToUpdate = null
-    parseInt(idToUpdate)
+    idToUpdate = parseInt(idToUpdate)
     this.state.data.forEach(dat => {
       if (dat.id === idToUpdate) {
         objIdToUpdate = dat._id
@@ -121,7 +121,6 @@ class App extends Component {
             
             <button 
               className="btn waves-effect waves-light" 
-              type="submit" name="action"
               style={{ margin: 15 }}
               onClick={() => {
                 this.postDataToDB(this.state.message); 
@@ -132,7 +131,29 @@ class App extends Component {
             </button>
           </div>
         </div>
-        <br/>
+
+        <div className="row">
+          <div className="col s12">
+            <div className="input-field inline">
+              <input 
+                type="text" className="validate" ref="inputId"
+                onChange={(e) => this.setState({ idToDelete: e.target.value})}
+              />
+              <label>enter ID of item to be deleted</label>
+            </div>
+            
+            <button 
+              className="btn waves-effect waves-light" 
+              style={{ margin: 15 }}
+              onClick={() => {
+                this.deleteFromDB(this.state.idToDelete); 
+                this.refs.newMsg.inputId = ''}
+              }
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
     )
   };
