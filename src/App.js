@@ -116,7 +116,7 @@ class App extends Component {
                 type="text" className="validate" ref="newMsg"
                 onChange={(e) => this.setState({ message: e.target.value})}
               />
-              <label>add something to the DB</label>
+              <label>Message</label>
             </div>
             
             <button 
@@ -136,10 +136,10 @@ class App extends Component {
           <div className="col s12">
             <div className="input-field inline">
               <input 
-                type="text" className="validate" ref="inputId"
+                type="text" className="validate" ref="deleteId"
                 onChange={(e) => this.setState({ idToDelete: e.target.value})}
               />
-              <label>enter ID of item to be deleted</label>
+              <label>ID</label>
             </div>
             
             <button 
@@ -147,10 +147,41 @@ class App extends Component {
               style={{ margin: 15 }}
               onClick={() => {
                 this.deleteFromDB(this.state.idToDelete); 
-                this.refs.newMsg.inputId = ''}
+                this.refs.newMsg.deleteId = ''}
               }
             >
               Delete
+            </button>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col s12">
+            <div className="input-field inline">
+              <input 
+                type="text" className="validate" ref="updateId"
+                onChange={(e) => this.setState({ idToUpdate: e.target.value})}
+              />
+              <label>ID</label>
+            </div>
+            <div className="input-field inline">
+              <input 
+                type="text" className="validate" ref="updateMsg"
+                onChange={(e) => this.setState({ updateMessage: e.target.value})}
+              />
+              <label>Message</label>
+            </div>
+            
+            <button 
+              className="btn waves-effect waves-light" 
+              style={{ margin: 15 }}
+              onClick={() => {
+                this.updateDB(this.state.idToUpdate, this.state.updateMessage); 
+                this.refs.newMsg.updateId = '';
+                this.refs.newMsg.updateMsg = ''}
+              }
+            >
+              Update
             </button>
           </div>
         </div>
