@@ -12,7 +12,8 @@ class App extends Component {
     idToDelete: null,
     idToUpdate: null,
     objectToUpdate: null,
-    url: 'http://localhost:3001/api'
+    url: 'http://localhost:3001/api',
+    correctPw: false,
   }
 
   // fetch all existing data in our db
@@ -37,6 +38,15 @@ class App extends Component {
       clearInterval(this.state.intervalIsSet)
       this.setState({ intervalIsSet: null})
     }
+  }
+
+  postPwToNode = (password) => {
+    axios.post(this.state.url +'/postPw', {password: password})
+    .then(response => {
+      if (response.data === 'connected') {
+        this.setState({ correctPw : true})
+      }
+    })
   }
 
   // POSTMAN post:
@@ -103,93 +113,127 @@ class App extends Component {
       )
 
     return (
-      <div className="valign-wrapper">   
-        <div className="row">
-          <div className="col s12">
-            <div className="card">
-              <div className="card-content">
-                <ul className="collection">
-                  { messages }
-                </ul>
-                <br/>
-                <div className="row">
-                  <div className="col s12">
-                    <div className="input-field inline">
-                      <input 
-                        type="text" className="validate" 
-                        ref="newMsg" id="newMsg"
-                        onChange={(e) => this.setState({ message: e.target.value})}
-                      />
-                      <label htmlFor="newMsg">Message</label>
+      <div>
+        {/* mongo db password card */}
+        <div 
+          className={this.state.correctPw ? "hide" : "valign-wrapper fullsize"}
+        >
+          <div className="row">
+            <div className="col s12">
+              <div className="card blue-grey darken-1">
+                <div 
+                  className="card-content white-text"
+                >
+                  <span className="card-title">Enter mongoDB Password</span>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <input id="dbPw" type="text" className="validate" ref="dbPw" />
+                      <label htmlFor="dbPw">Password</label>
                     </div>
-                    
-                    <button 
-                      className="btn waves-effect waves-light" 
-                      style={{ margin: 15 }}
-                      onClick={() => {
-                        this.postDataToDB(this.state.message); 
-                        this.refs.newMsg.value = ''}
-                      }
-                    >
-                      Add
-                    </button>
                   </div>
+                  <button 
+                    className="btn waves-effect waves-light"
+                    onClick={() => this.postPwToNode(this.refs.dbPw.value)}
+                  >
+                    Okay
+                  </button>
                 </div>
-
-                <div className="row">
-                  <div className="col s12">
-                    <div className="input-field inline">
-                      <input 
-                        type="text" className="validate" 
-                        ref="deleteId" id="deleteId"
-                        onChange={(e) => this.setState({ idToDelete: e.target.value})}
-                      />
-                      <label htmlFor="deleteId">ID</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        {/* main app card */}
+        <div className={ this.state.correctPw ? "valign-wrapper" : "hide" }>   
+          <div className="row">
+            <div className="col s12">
+              <div className="card">
+                <div className="card-content">
+                  {/* list of messages */}
+                  <ul className="collection">
+                    { messages }
+                  </ul>
+                  <br/>
+                  {/* post message */}
+                  <div className="row">
+                    <div className="col s12">
+                      <div className="input-field inline">
+                        <input 
+                          type="text" className="validate" 
+                          ref="newMsg" id="newMsg"
+                          onChange={(e) => this.setState({ message: e.target.value})}
+                        />
+                        <label htmlFor="newMsg">Message</label>
+                      </div>
+                      
+                      <button 
+                        className="btn waves-effect waves-light" 
+                        style={{ margin: 15 }}
+                        onClick={() => {
+                          this.postDataToDB(this.state.message); 
+                          this.refs.newMsg.value = ''}
+                        }
+                      >
+                        Add
+                      </button>
                     </div>
-                    
-                    <button 
-                      className="btn waves-effect waves-light" 
-                      style={{ margin: 15 }}
-                      onClick={() => {
-                        this.deleteFromDB(this.state.idToDelete); 
-                        this.refs.newMsg.deleteId = ''}
-                      }
-                    >
-                      Delete
-                    </button>
                   </div>
-                </div>
-
-                <div className="row">
-                  <div className="col s12">
-                    <div className="input-field inline">
-                      <input 
-                        type="text" className="validate" 
-                        ref="updateId" id="updateId"
-                        onChange={(e) => this.setState({ idToUpdate: e.target.value})}
-                      />
-                      <label htmlFor="updateId">ID</label>
+                  {/* delete message */}
+                  <div className="row">
+                    <div className="col s12">
+                      <div className="input-field inline">
+                        <input 
+                          type="text" className="validate" 
+                          ref="deleteId" id="deleteId"
+                          onChange={(e) => this.setState({ idToDelete: e.target.value})}
+                        />
+                        <label htmlFor="deleteId">ID</label>
+                      </div>
+                      
+                      <button 
+                        className="btn waves-effect waves-light" 
+                        style={{ margin: 15 }}
+                        onClick={() => {
+                          this.deleteFromDB(this.state.idToDelete); 
+                          this.refs.newMsg.deleteId = ''}
+                        }
+                      >
+                        Delete
+                      </button>
                     </div>
-                    <div className="input-field inline">
-                      <input 
-                        type="text" className="validate" 
-                        ref="updateMsg" id="updateMsg"
-                        onChange={(e) => this.setState({ updateMessage: e.target.value})}
-                      />
-                      <label htmlFor="updateMsg">Message</label>
+                  </div>
+                  {/* update message */}
+                  <div className="row">
+                    <div className="col s12">
+                      <div className="input-field inline">
+                        <input 
+                          type="text" className="validate" 
+                          ref="updateId" id="updateId"
+                          onChange={(e) => this.setState({ idToUpdate: e.target.value})}
+                        />
+                        <label htmlFor="updateId">ID</label>
+                      </div>
+                      <div className="input-field inline">
+                        <input 
+                          type="text" className="validate" 
+                          ref="updateMsg" id="updateMsg"
+                          onChange={(e) => this.setState({ updateMessage: e.target.value})}
+                        />
+                        <label htmlFor="updateMsg">Message</label>
+                      </div>
+                      
+                      <button 
+                        className="btn waves-effect waves-light" 
+                        style={{ margin: 15 }}
+                        onClick={() => {
+                          this.updateDB(this.state.idToUpdate, this.state.updateMessage); 
+                          this.refs.newMsg.updateId = '';
+                          this.refs.newMsg.updateMsg = ''}
+                        }
+                      >
+                        Update
+                      </button>
                     </div>
-                    
-                    <button 
-                      className="btn waves-effect waves-light" 
-                      style={{ margin: 15 }}
-                      onClick={() => {
-                        this.updateDB(this.state.idToUpdate, this.state.updateMessage); 
-                        this.refs.newMsg.updateId = '';
-                        this.refs.newMsg.updateMsg = ''}
-                      }
-                    >
-                      Update
-                    </button>
                   </div>
                 </div>
               </div>
