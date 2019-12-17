@@ -47,12 +47,12 @@ class App extends Component {
   // 	"message": "ASD"
   // }
   postDataToDB = (message) => {
+    // console.log(message)
     let currentIds = this.state.data.map((data) => data.id)
     let idToBeAdded = 0
     while (currentIds.includes(idToBeAdded)) {
       ++idToBeAdded
     }
-
     axios.post(this.state.url +'/postData', {
       id: idToBeAdded,
       message: message,
@@ -92,11 +92,45 @@ class App extends Component {
 
   render () {
     const { data } = this.state
+    const messages = this.state.data.length === 0 ? <p> NO DATA </p> :
+      this.state.data.map((dat, index) =>
+        <li 
+          className="collection-item" 
+          key={ index }
+        >
+          <p style={{ margin: 0 }}>id: {dat.id} <br/>
+          message: {dat.message}</p>
+        </li>
+      )
 
     return (
-    <div>
-      LETS GO
-    </div>
+      <div>
+        <ul className="collection">
+          { messages }
+        </ul>
+        <br/>
+        <div className="row">
+          <div className="col s12">
+            <div className="input-field inline">
+              <input 
+                type="text" className="validate"
+                onChange={(e) => this.setState({ message: e.target.value})}
+              />
+              <label>add something to the DB</label>
+            </div>
+            
+            <button 
+              className="btn waves-effect waves-light" 
+              type="submit" name="action"
+              style={{ margin: 15 }}
+              onClick={() => this.postDataToDB(this.state.message)}
+            >
+              Add
+            </button>
+          </div>
+        </div>
+        <br/>
+      </div>
     )
   };
 }
