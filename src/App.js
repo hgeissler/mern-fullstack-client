@@ -116,10 +116,11 @@ class App extends Component {
                   <div className="col s12">
                     <div className="input-field inline">
                       <input 
-                        type="text" className="validate" ref="newMsg"
+                        type="text" className="validate" 
+                        ref="newMsg" id="newMsg"
                         onChange={(e) => this.setState({ message: e.target.value})}
                       />
-                      <label>Message</label>
+                      <label htmlFor="newMsg">Message</label>
                     </div>
                     
                     <button 
@@ -139,10 +140,11 @@ class App extends Component {
                   <div className="col s12">
                     <div className="input-field inline">
                       <input 
-                        type="text" className="validate" ref="deleteId"
+                        type="text" className="validate" 
+                        ref="deleteId" id="deleteId"
                         onChange={(e) => this.setState({ idToDelete: e.target.value})}
                       />
-                      <label>ID</label>
+                      <label htmlFor="deleteId">ID</label>
                     </div>
                     
                     <button 
@@ -162,17 +164,19 @@ class App extends Component {
                   <div className="col s12">
                     <div className="input-field inline">
                       <input 
-                        type="text" className="validate" ref="updateId"
+                        type="text" className="validate" 
+                        ref="updateId" id="updateId"
                         onChange={(e) => this.setState({ idToUpdate: e.target.value})}
                       />
-                      <label>ID</label>
+                      <label htmlFor="updateId">ID</label>
                     </div>
                     <div className="input-field inline">
                       <input 
-                        type="text" className="validate" ref="updateMsg"
+                        type="text" className="validate" 
+                        ref="updateMsg" id="updateMsg"
                         onChange={(e) => this.setState({ updateMessage: e.target.value})}
                       />
-                      <label>Message</label>
+                      <label htmlFor="updateMsg">Message</label>
                     </div>
                     
                     <button 
