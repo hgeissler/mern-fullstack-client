@@ -113,7 +113,7 @@ class App extends Component {
           <div className="col s12">
             <div className="input-field inline">
               <input 
-                type="text" className="validate"
+                type="text" className="validate" ref="newMsg"
                 onChange={(e) => this.setState({ message: e.target.value})}
               />
               <label>add something to the DB</label>
@@ -123,7 +123,10 @@ class App extends Component {
               className="btn waves-effect waves-light" 
               type="submit" name="action"
               style={{ margin: 15 }}
-              onClick={() => this.postDataToDB(this.state.message)}
+              onClick={() => {
+                this.postDataToDB(this.state.message); 
+                this.refs.newMsg.value = ''}
+              }
             >
               Add
             </button>
