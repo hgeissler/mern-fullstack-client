@@ -12,6 +12,7 @@ class App extends Component {
     idToDelete: null,
     idToUpdate: null,
     objectToUpdate: null,
+    url: 'http://localhost:3001/api'
   }
 
   // fetch all existing data in our db
@@ -26,12 +27,9 @@ class App extends Component {
   }
 
   getDataFromDb = () => {
-    fetch('http://localhost:3001/api/getData')
+    fetch(this.state.url + '/getData')
     .then((data) => data.json())
-    .then((res) => {
-      this.setState({ data: res.data })
-      console.log(res)
-    })
+    .then((res) => this.setState({ data: res.data }))
   }
 
   componentWillUnmount() {
@@ -55,7 +53,7 @@ class App extends Component {
       ++idToBeAdded
     }
 
-    axios.post('http://localhost:3001/api/postData', {
+    axios.post(this.state.url +'/postData', {
       id: idToBeAdded,
       message: message,
     })
@@ -64,22 +62,37 @@ class App extends Component {
   deleteFromDB = (idToDelete) => {
     parseInt(idToDelete)
     let objIdToDelete = null
-    this.state.data.forEach((dat) => {
+    this.state.data.forEach(dat => {
       if (dat.id === idToDelete) {
         objIdToDelete = dat._id
       }
     })
 
-    axios.delete('http://localhost:3001/api/deleteData', {
+    axios.delete(this.state.url + '/deleteData', {
       data: {
         id: objIdToDelete,
       }
     })
   }
 
+  updateDB = (idToUpdate, updateMessage) => {
+    let objIdToUpdate = null
+    parseInt(idToUpdate)
+    this.state.data.forEach(dat => {
+      if (dat.id === idToUpdate) {
+        objIdToUpdate = dat._id
+      }
+    })
+
+    axios.post(this.state.url + '/updateData', {
+      id: objIdToUpdate,
+      update: { message: updateMessage}
+    })
+  }
+
   render () {
     const { data } = this.state
-    
+
     return (
     <div>
       LETS GO
